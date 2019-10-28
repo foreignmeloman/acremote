@@ -1,0 +1,15 @@
+[Unit]
+Description=AC Remote Service
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=
+ExecStartPre=[ `/bin/cat /proc/uptime | /usr/bin/cut -d'.' -f1` -lt 30  ] && /bin/sleep 30
+ExecStart=python3 -m acremote.main
+Restart=on-failure
+Requires=networking.service
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,17 @@
+{
+    "python.pythonPath": "${workspaceFolder}/env/bin/python3",
+    "python.terminal.activateEnvironment": true,
+    "python.linting.pylintArgs": [
+        "--jobs=2",
+        "--disable=fixme,C0103,C0111,C0301,E0213,W0212",
+    ],
+    "python.testing.unittestArgs": [
+        "-v",
+        "-s", "./tests",
+        "-p", "test_*.py",
+        // "--locals",
+    ],
+    "python.testing.pytestEnabled": false,
+    "python.testing.nosetestsEnabled": false,
+    "python.testing.unittestEnabled": true,
+}

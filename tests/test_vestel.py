@@ -65,3 +65,7 @@ class TestVestelACRemote(unittest.TestCase):
             testobj._form_bin_str(),
             '11000011111001100000011100000000100001100111101000000001000000000000000000000110000000000000000010010101'
         )
+
+
+if __name__ == '__main__':
+    unittest.main()

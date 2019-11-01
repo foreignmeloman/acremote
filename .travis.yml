@@ -15,3 +15,5 @@ before_install:
   - sudo make install
 install:
   - python setup.py -q install
+script:
+  - python tests/test_vestel.py -v

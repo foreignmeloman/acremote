@@ -6,7 +6,7 @@ python:
   - "3.6"
   - "3.7"
   - "3.8"
-before install:
+before_install:
   - wget https://github.com/joan2937/pigpio/archive/master.zip
   - unzip master.zip
   - cd pigpio-master

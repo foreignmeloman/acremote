@@ -1,8 +1,16 @@
+arch: arm64
+os: linux
 language: python
 python:
   - "3.5"
   - "3.6"
   - "3.7"
   - "3.8"
+before install:
+  - wget https://github.com/joan2937/pigpio/archive/master.zip
+  - unzip master.zip
+  - cd pigpio-master
+  - make
+  - sudo make install
 install:
   - python setup.py -q install

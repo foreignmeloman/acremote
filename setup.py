@@ -25,5 +25,14 @@ setup(  # TODO fill the form
     ext_modules=[module_gpirblast],
     # py_modules=['acremote'],
     packages=find_packages(exclude=['tests', 'config_templates']),
-    install_requires=['telepot'],
+    extras_require={
+        ':python_version == "3.5"': [
+            'yarl<=1.3.0',
+            'aiohttp<=3.6.1',
+            'telepot==12.7',
+        ],
+        ':python_version > "3.5"': [
+            'telepot',
+        ],
+    },
 )

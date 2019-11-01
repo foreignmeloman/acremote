@@ -13,6 +13,7 @@ before_install:
   - cd pigpio-master
   - make
   - sudo make install
+  - cd -
 install:
   - python setup.py -q install
 script:

@@ -7,6 +7,7 @@ python:
   - "3.7"
   - "3.8"
 before_install:
+  - sudo apt-get install unzip
   - wget https://github.com/joan2937/pigpio/archive/master.zip
   - unzip master.zip
   - cd pigpio-master

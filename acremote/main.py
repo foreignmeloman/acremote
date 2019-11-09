@@ -32,7 +32,7 @@ class _ConfigHandler():
 
     def write_config(self, config: dict):
         with open(self._CONFIG_FILE, 'w') as file_handle:
-            json.dump(config, file_handle)
+            json.dump(config, file_handle, indent='\t')
         os.chmod(self._CONFIG_FILE, 0o600)
 
 
@@ -41,10 +41,12 @@ class _ConfigHandler():
 
 class ACRemote():
 
-    def __init__(self, bot_token: str, gpio_pin: int, admin_ids: list,
-                 user_ids: list, easter_eggs: dict):
+    def __init__(self, bot_token: str, gpio_pin: int, state_file: str,
+                 admin_ids: list, user_ids: list, easter_eggs: dict):
 
-        self._AC_HANDLER = VestelACRemote(gpio_pin=gpio_pin)
+        self._AC_HANDLER = VestelACRemote(gpio_pin)
+
+        self._AC_STATE_FILE = state_file
 
         self._AC_START_TIME = 0
 
@@ -171,6 +173,8 @@ class ACRemote():
 
         self._DEBUG = False
 
+        self._load_remote_state()
+
     #################################################
     # DECORATORS
     #################################################
@@ -204,7 +208,7 @@ class ACRemote():
             else:
                 self._BOT.sendMessage(
                     chat_id,
-                    text='<code>ur mom gay</code>',
+                    text='<code>You are not an admin</code>',
                     parse_mode='HTML',
                 )
         return wrapper
@@ -248,6 +252,26 @@ class ACRemote():
             self._AC_TIMER += self._AC_HANDLER.timer_step(self._AC_TIMER)
         elif not up and self._AC_TIMER > 0.0:
             self._AC_TIMER -= self._AC_HANDLER.timer_step(self._AC_TIMER)
+
+    def _save_remote_state(self):  # TODO add unittests for states
+        remote_state = {
+            attr: getattr(self._AC_HANDLER, attr)
+            for attr in dir(self._AC_HANDLER)
+            if type(getattr(self._AC_HANDLER, attr)) in (bool, str, int, float)
+            and not attr.startswith('_')
+            and attr not in ('max_temp', 'min_temp')
+        }
+        with open(self._AC_STATE_FILE, 'w') as file_handle:
+            json.dump(remote_state, file_handle, separators=(',', ':'))
+
+    def _load_remote_state(self):
+        with open(self._AC_STATE_FILE, 'r') as file_handle:
+            remote_state = json.load(file_handle)
+        for attr in remote_state:
+            try:
+                setattr(self._AC_HANDLER, attr, remote_state[attr])
+            except AttributeError:
+                pass  # skip properties without setter
 
     #################################################
     # ADMIN COMMANDS
@@ -694,6 +718,7 @@ class ACRemote():
             self._BOT.sendMessage(chat_id, text=self._RESPONSES[text.lower()])
 
         self._process_entities(msg)
+        self._save_remote_state()
 
     def _on_callback_query(self, msg):
         if msg['message']['date'] < int(time.time()) - 30:
@@ -712,6 +737,7 @@ class ACRemote():
             self._BOT.answerCallbackQuery(query_id, text='Passed query: ' + callback_data)
 
         self._cleanup_ilkb(chat_id)
+        self._save_remote_state()
 
     #################################################
     # USER METHODS
@@ -742,6 +768,7 @@ if __name__ == '__main__':
     server = ACRemote(
         bot_token=config['bot_token'],
         gpio_pin=config['gpio_pin'],
+        state_file=config['state_file'],
         admin_ids=config['admin_ids'],
         user_ids=config['user_ids'],
         easter_eggs=config['easter_eggs']

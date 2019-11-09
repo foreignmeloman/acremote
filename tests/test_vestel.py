@@ -4,27 +4,27 @@ from acremote import vestel
 
 class TestVestelACRemote(unittest.TestCase):
     def setUp(self):
-        pass
+        self._gpio_pin = 22
 
     def test_form_octet_small(self):
         """
         When input number binary representation is less than 8 digits long
         """
-        testobj = vestel.VestelACRemote()
+        testobj = vestel.VestelACRemote(self._gpio_pin)
         self.assertEqual(testobj.form_octet(69), '01000101')
 
     def test_form_octet_exact(self):
         """
         When input number binary representation is exactly 8 digits long
         """
-        testobj = vestel.VestelACRemote()
+        testobj = vestel.VestelACRemote(self._gpio_pin)
         self.assertEqual(testobj.form_octet(192), '11000000')
 
     def test_form_octet_big(self):
         """
         When input number binary representation is more than 8 digits long
         """
-        testobj = vestel.VestelACRemote()
+        testobj = vestel.VestelACRemote(self._gpio_pin)
         self.assertEqual(testobj.form_octet(420), '10100100')
 
     def test_form_bin_str_default(self):
@@ -45,14 +45,14 @@ class TestVestelACRemote(unittest.TestCase):
             '_FEELING': False,
             '_STRONG': False}
         """
-        testobj = vestel.VestelACRemote()
+        testobj = vestel.VestelACRemote(self._gpio_pin)
         self.assertEqual(
             testobj._form_bin_str(),
             '11000011000000000000011100000000000000000000000000000000000000000000000000000000000000000000000011000101'
         )
 
     def test_form_bin_str_custom(self):
-        testobj = vestel.VestelACRemote()
+        testobj = vestel.VestelACRemote(self._gpio_pin)
         testobj.on = True
         testobj.temp = 20
         testobj.speed = 'LOW'

@@ -1,5 +1,6 @@
 {
 	"bot_token": "",
+	"gpio_pin": 22,
 	"admin_ids": [],
 	"user_ids": [],
 	"easter_eggs": {

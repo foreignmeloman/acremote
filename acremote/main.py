@@ -41,9 +41,10 @@ class _ConfigHandler():
 
 class ACRemote():
 
-    def __init__(self, bot_token: str, admin_ids: list, user_ids: list, easter_eggs: dict):
+    def __init__(self, bot_token: str, gpio_pin: int, admin_ids: list,
+                 user_ids: list, easter_eggs: dict):
 
-        self._AC_HANDLER = VestelACRemote(gpio_pin=22)
+        self._AC_HANDLER = VestelACRemote(gpio_pin=gpio_pin)
 
         self._AC_START_TIME = 0
 
@@ -83,7 +84,7 @@ class ACRemote():
                 ['/feeling', '/fresh'],
                 ['/screen', '/timer'],
                 ['/health', '/fungusproof'],
-                ['/main', '/admin'],
+                ['/admin', '/main'],
             ], resize_keyboard=True),
             'timer': ReplyKeyboardMarkup(keyboard=[
                 ['/timer_set', '/timer_up'],
@@ -740,6 +741,7 @@ if __name__ == '__main__':
 
     server = ACRemote(
         bot_token=config['bot_token'],
+        gpio_pin=config['gpio_pin'],
         admin_ids=config['admin_ids'],
         user_ids=config['user_ids'],
         easter_eggs=config['easter_eggs']

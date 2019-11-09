@@ -1,4 +1,4 @@
-# import subprocess
+# Based on Vestel YKR-H/002E AC remote
 from time import sleep
 from acremote.thermo import W1Thermo
 
@@ -7,7 +7,7 @@ import gpirblast
 
 class VestelACRemote():
 
-    def __init__(self, gpio_pin=2):
+    def __init__(self, gpio_pin: int):
         self._SWING = True
         self._ON = False
         self._HEALTH = False
@@ -328,8 +328,6 @@ class VestelACRemote():
 
     def _send_code(self):
         self._refresh_data_fields()
-        # subprocess.run(['/home/pi/scripts/ir-blaster/gpirblast',
-        #                 str(self._GPIO_PIN), self._form_bin_str()])
         gpirblast.send_code(self._GPIO_PIN, self._form_bin_str())
 
     #################################################

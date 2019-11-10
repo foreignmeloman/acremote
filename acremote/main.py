@@ -167,9 +167,9 @@ class ACRemote():
             False: 'OFF',
         }
 
-        self._SENT_MSG_ID = {}  # Last sent {from_id: message_id}
+        self._SENT_MSG_ID = {}  # Last sent {from_id:message_id}
 
-        self._CONFIRM_CMDS = {}  # {from_id: {'cmd': self.cmd, args: None, kwargs: None 'confirmed': False}}
+        self._CONFIRM_CMDS = {}  # {from_id:{'cmd':self.cmd,args:None,kwargs:None,'confirmed':False}}
 
         self._DEBUG = False
 
@@ -265,6 +265,8 @@ class ACRemote():
             json.dump(remote_state, file_handle, separators=(',', ':'))
 
     def _load_remote_state(self):
+        if not os.path.isfile(self._AC_STATE_FILE):
+            return
         with open(self._AC_STATE_FILE, 'r') as file_handle:
             remote_state = json.load(file_handle)
         for attr in remote_state:
@@ -272,6 +274,13 @@ class ACRemote():
                 setattr(self._AC_HANDLER, attr, remote_state[attr])
             except AttributeError:
                 pass  # skip properties without setter
+
+    def _cmd_response(self, chat_id, setting, value):
+        self._BOT.sendMessage(
+            chat_id,
+            text='AC {0}: <b>{1}</b>'.format(setting, value),
+            parse_mode='HTML',
+        )
 
     #################################################
     # ADMIN COMMANDS
@@ -314,13 +323,6 @@ class ACRemote():
     #################################################
     # COMMANDS
     #################################################
-
-    # def cmd_get_temp(self, chat_id):
-    #     reply = '\n'.join([
-    #         'AC temperature: <b>{}°C</b>'.format(self._AC_HANDLER.temp),
-    #         'Room temperature: <b>{}</b>°C'.format(self._room_temp)
-    #     ])
-    #     self._BOT.sendMessage(chat_id, text=reply, parse_mode='HTML')
 
     def cmd_get_stat(self, chat_id):
         reply = [
@@ -387,43 +389,23 @@ class ACRemote():
 
     def cmd_swing(self, chat_id, *args):
         self._AC_HANDLER.btn_swing()
-        self._BOT.sendMessage(
-            chat_id,
-            text='AC swing: <b>{}</b>'.format(self._B2S[self._AC_HANDLER.swing]),
-            parse_mode='HTML',
-        )
+        self._cmd_response(chat_id, 'swing', self._B2S[self._AC_HANDLER.swing])
 
     def cmd_health(self, chat_id, *args):
         self._AC_HANDLER.btn_health()
-        self._BOT.sendMessage(
-            chat_id,
-            text='AC health: <b>{}</b>'.format(self._B2S[self._AC_HANDLER.health]),
-            parse_mode='HTML',
-        )
+        self._cmd_response(chat_id, 'health', self._B2S[self._AC_HANDLER.health])
 
     def cmd_strong(self, chat_id, *args):
         self._AC_HANDLER.btn_strong()
-        self._BOT.sendMessage(
-            chat_id,
-            text='AC strong: <b>{}</b>'.format(self._B2S[self._AC_HANDLER.strong]),
-            parse_mode='HTML',
-        )
+        self._cmd_response(chat_id, 'strong', self._B2S[self._AC_HANDLER.strong])
 
     def cmd_sleep(self, chat_id, *args):
         self._AC_HANDLER.btn_sleep()
-        self._BOT.sendMessage(
-            chat_id,
-            text='AC sleep: <b>{}</b>'.format(self._B2S[self._AC_HANDLER.sleep]),
-            parse_mode='HTML',
-        )
+        self._cmd_response(chat_id, 'sleep', self._B2S[self._AC_HANDLER.sleep])
 
     def cmd_screen(self, chat_id):
         self._AC_HANDLER.btn_screen()
-        self._BOT.sendMessage(
-            chat_id,
-            text='AC screen: <b>{}</b>'.format(self._B2S[self._AC_HANDLER.screen]),
-            parse_mode='HTML',
-        )
+        self._cmd_response(chat_id, 'screen', self._B2S[self._AC_HANDLER.screen])
 
     def cmd_clean(self, chat_id):
         if self._AC_HANDLER.btn_clean():
@@ -433,31 +415,27 @@ class ACRemote():
 
     def cmd_fresh(self, chat_id):
         self._AC_HANDLER.btn_fresh()  # TODO: Add check like cmd_clean
-        self._BOT.sendMessage(
-            chat_id,
-            text='AC fresh: <b>{}</b>'.format(self._B2S[self._AC_HANDLER.fresh]),
-            parse_mode='HTML',
-        )
+        self._cmd_response(chat_id, 'fresh', self._B2S[self._AC_HANDLER.fresh])
 
     def cmd_feeling(self, chat_id):
         self._AC_HANDLER.btn_feeling()
-        self._BOT.sendMessage(
-            chat_id,
-            text='AC feeling: <b>{}</b>'.format(self._B2S[self._AC_HANDLER.feeling]),
-            parse_mode='HTML',
-        )
+        self._cmd_response(chat_id, 'feeling', self._B2S[self._AC_HANDLER.feeling])
 
     def cmd_speed_auto(self, chat_id):
         self._AC_HANDLER.btn_speed('AUTO')
+        self._cmd_response(chat_id, 'speed', self._AC_HANDLER.mode)
 
     def cmd_speed_low(self, chat_id):
         self._AC_HANDLER.btn_speed('LOW')
+        self._cmd_response(chat_id, 'speed', self._AC_HANDLER.mode)
 
     def cmd_speed_mid(self, chat_id):
         self._AC_HANDLER.btn_speed('MID')
+        self._cmd_response(chat_id, 'speed', self._AC_HANDLER.mode)
 
     def cmd_speed_high(self, chat_id):
         self._AC_HANDLER.btn_speed('HIGH')
+        self._cmd_response(chat_id, 'speed', self._AC_HANDLER.mode)
 
     def cmd_turn_on(self, chat_id):
         self._ac_switch(chat_id, True)
@@ -467,18 +445,23 @@ class ACRemote():
 
     def cmd_mode_auto(self, chat_id):
         self._AC_HANDLER.btn_mode('AUTO')
+        self._cmd_response(chat_id, 'mode', self._AC_HANDLER.mode)
 
     def cmd_mode_cool(self, chat_id):
         self._AC_HANDLER.btn_mode('COOL')
+        self._cmd_response(chat_id, 'mode', self._AC_HANDLER.mode)
 
     def cmd_mode_dry(self, chat_id):
         self._AC_HANDLER.btn_mode('DRY')
+        self._cmd_response(chat_id, 'mode', self._AC_HANDLER.mode)
 
     def cmd_mode_heat(self, chat_id):
         self._AC_HANDLER.btn_mode('HEAT')
+        self._cmd_response(chat_id, 'mode', self._AC_HANDLER.mode)
 
     def cmd_mode_fan(self, chat_id):
         self._AC_HANDLER.btn_mode('FAN')
+        self._cmd_response(chat_id, 'mode', self._AC_HANDLER.mode)
 
     def cmd_timer_up(self, chat_id):
         self._timer_dial(True)

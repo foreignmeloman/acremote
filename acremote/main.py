@@ -337,6 +337,7 @@ class ACRemote():
             'Swing       = {}'.format(self._B2S[self._AC_HANDLER.swing]),
             'Sleep       = {}'.format(self._B2S[self._AC_HANDLER.sleep]),
             'Fresh       = {}'.format(self._B2S[self._AC_HANDLER.fresh]),
+            'Health      = {}'.format(self._B2S[self._AC_HANDLER.health]),
             'Feeling     = {}'.format(self._B2S[self._AC_HANDLER.feeling]),
             'Screen      = {}'.format(self._B2S[self._AC_HANDLER.screen]),
         ]
@@ -423,19 +424,19 @@ class ACRemote():
 
     def cmd_speed_auto(self, chat_id):
         self._AC_HANDLER.btn_speed('AUTO')
-        self._cmd_response(chat_id, 'speed', self._AC_HANDLER.mode)
+        self._cmd_response(chat_id, 'speed', self._AC_HANDLER.speed)
 
     def cmd_speed_low(self, chat_id):
         self._AC_HANDLER.btn_speed('LOW')
-        self._cmd_response(chat_id, 'speed', self._AC_HANDLER.mode)
+        self._cmd_response(chat_id, 'speed', self._AC_HANDLER.speed)
 
     def cmd_speed_mid(self, chat_id):
         self._AC_HANDLER.btn_speed('MID')
-        self._cmd_response(chat_id, 'speed', self._AC_HANDLER.mode)
+        self._cmd_response(chat_id, 'speed', self._AC_HANDLER.speed)
 
     def cmd_speed_high(self, chat_id):
         self._AC_HANDLER.btn_speed('HIGH')
-        self._cmd_response(chat_id, 'speed', self._AC_HANDLER.mode)
+        self._cmd_response(chat_id, 'speed', self._AC_HANDLER.speed)
 
     def cmd_turn_on(self, chat_id):
         self._ac_switch(chat_id, True)

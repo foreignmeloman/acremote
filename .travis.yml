@@ -14,7 +14,9 @@ before_install:
   - make
   - sudo make install
   - cd -
+  - pip install wheel
 install:
-  - python setup.py install
+  - python setup.py bdist_wheel
+  - pip install dist/*.whl -U
 script:
   - python tests/test_vestel.py -v

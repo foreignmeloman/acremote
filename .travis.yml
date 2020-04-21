@@ -17,6 +17,6 @@ before_install:
   - pip install wheel
 install:
   - python setup.py bdist_wheel
-  - pip install dist/*.whl -U
+  - pip install --no-use-pep517 dist/*.whl -U
 script:
   - python tests/test_vestel.py -v

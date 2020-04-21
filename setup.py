@@ -23,9 +23,8 @@ setup(  # TODO fill the form
     author_email='foreignmeloman@gmail.com',
     license='MIT',
     ext_modules=[module_gpirblast],
-    # py_modules=['acremote'],
     packages=find_packages(exclude=['tests', 'config_templates']),
-    extras_require={
+    install_requires={
         ':python_version == "3.5"': [
             'yarl<=1.3.0',
             'aiohttp<=3.6.1',

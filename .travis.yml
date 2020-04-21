@@ -1,9 +1,5 @@
 arch: arm64
 os: linux
-addons:
-  apt:
-    packages:
-      - unzip
 language: python
 python:
   - "3.5"
@@ -12,13 +8,13 @@ python:
   - "3.8"
 cache: pip
 before_install:
-  - wget https://github.com/joan2937/pigpio/archive/master.zip
-  - unzip master.zip
+  - wget https://github.com/joan2937/pigpio/archive/master.tar.gz
+  - tar xf master.tar.gz
   - cd pigpio-master
   - make
   - sudo make install
   - cd -
 install:
-  - pip install .
+  - python setup.py install
 script:
   - python tests/test_vestel.py -v

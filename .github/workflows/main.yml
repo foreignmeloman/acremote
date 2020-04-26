@@ -54,4 +54,4 @@ jobs:
         pip install --no-use-pep517 dist/*.whl --upgrade
 
     - name: Run tests
-      run: python tests/test_vestel.py -v
+      run: python acremote/tests/test_vestel.py -v

@@ -37,6 +37,8 @@ jobs:
       uses: actions/cache@v1
       with:
         path: ~/.cache/pip
+        key: ${{ runner.os }}-pip
+        restore-keys: ${{ runner.os }}-pip
 
     - name: Make and install pigpio
       run: |

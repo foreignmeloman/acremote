@@ -1,4 +1,5 @@
 # acremote
+![CI](https://github.com/foreignmeloman/acremote/workflows/CI/badge.svg)
 [![Build Status](https://travis-ci.org/foreignmeloman/acremote.svg?branch=master)](https://travis-ci.org/foreignmeloman/acremote)
 [![CodeFactor](https://www.codefactor.io/repository/github/foreignmeloman/acremote/badge)](https://www.codefactor.io/repository/github/foreignmeloman/acremote)
 

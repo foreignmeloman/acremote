@@ -1,0 +1,55 @@
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.5, 3.6, 3.7, 3.8]
+
+    steps:
+    - name: Checkout acremote
+    - uses: actions/checkout@v2
+      with:
+        path: acremote
+
+    - name: Checkout pigpio
+      uses: actions/checkout@v2
+      with:
+        repository: joan2937/pigpio
+        path: pigpio
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v1
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install Python dependencies
+      run: python -m pip install --upgrade wheel
+
+    - name: Cache pip
+      uses: actions/cache@v1
+      with:
+        path: ~/.cache/pip
+
+    - name: Make and install pigpio
+      run: |
+        cd pigpio
+        make -j
+        sudo make install
+        cd -
+      
+    - name: Make and install acremote wheel
+      run: |
+        cd acremote
+        python setup.py bdist_wheel 
+        pip install --no-use-pep517 dist/*.whl --upgrade
+
+    - name: Run tests
+      run: python tests/test_vestel.py -v

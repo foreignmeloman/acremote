@@ -46,11 +46,11 @@ jobs:
         make -j
         sudo make install
         cd -
-      
+
     - name: Make and install acremote wheel
       run: |
         cd acremote
-        python setup.py bdist_wheel 
+        python setup.py bdist_wheel
         pip install --no-use-pep517 dist/*.whl --upgrade
 
     - name: Run tests

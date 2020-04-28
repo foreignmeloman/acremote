@@ -1,7 +1,12 @@
 # acremote
-![CI](https://github.com/foreignmeloman/acremote/workflows/CI/badge.svg)
+[![Github CI](https://github.com/foreignmeloman/acremote/workflows/CI/badge.svg)](https://github.com/foreignmeloman/acremote/actions)
 [![Build Status](https://travis-ci.org/foreignmeloman/acremote.svg?branch=master)](https://travis-ci.org/foreignmeloman/acremote)
 [![CodeFactor](https://www.codefactor.io/repository/github/foreignmeloman/acremote/badge)](https://www.codefactor.io/repository/github/foreignmeloman/acremote)
+
+## Hardware
+
+![breadboard](doc/hardware/acremote_breadboard.png?raw=true "breadboard") 
+![schematic](doc/hardware/acremote_schematic.png?raw=true "schematic") 
 
 ## Installation
 Requirements:

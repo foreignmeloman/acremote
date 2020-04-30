@@ -256,7 +256,7 @@ class ACRemote():
         remote_state = {
             attr: getattr(self._AC_HANDLER, attr)
             for attr in dir(self._AC_HANDLER)
-            if type(getattr(self._AC_HANDLER, attr)) in (bool, str, int, float)
+            if isinstance(getattr(self._AC_HANDLER, attr), (bool, str, int, float))
             and not attr.startswith('_')
             and attr not in ('max_temp', 'min_temp')
         }

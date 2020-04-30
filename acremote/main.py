@@ -205,12 +205,11 @@ class ACRemote():
             chat_id = args[1]
             if chat_id in self._ADMIN_IDS:  # chat_id is also user's ID
                 return cmd(*args, **kwargs)
-            else:
-                self._BOT.sendMessage(
-                    chat_id,
-                    text='<code>You are not an admin</code>',
-                    parse_mode='HTML',
-                )
+            self._BOT.sendMessage(
+                chat_id,
+                text='<code>You are not an admin</code>',
+                parse_mode='HTML',
+            )
         return wrapper
 
     #################################################

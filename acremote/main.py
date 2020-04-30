@@ -646,13 +646,13 @@ class ACRemote():
     def _process_entities(self, msg):
 
         try:
-            msg['entities']
+            entities = msg['entities']
             text = msg['text']
             chat_id = msg['chat']['id']  # TODO change to from->id
         except KeyError:
             return
 
-        for entity in msg['entities']:
+        for entity in entities:
             if entity['type'] == 'bot_command':
                 offset = entity['offset']
                 length = entity['length']

@@ -24,10 +24,8 @@ setup(  # TODO fill the form
     license='MIT',
     ext_modules=[module_gpirblast],
     packages=find_packages(exclude=['tests', 'config_templates']),
+    python_requires='>=3.7',
     install_requires=[
-        'yarl<=1.3.0;python_version=="3.5"',
-        'aiohttp<=3.6.1;python_version=="3.5"',
-        'telepot==12.7;python_version=="3.5"',
-        'telepot;python_version>"3.5"',
+        'telepot',
     ],
 )

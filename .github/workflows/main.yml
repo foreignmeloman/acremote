@@ -2,17 +2,24 @@ name: CI
 
 on:
   push:
-    branches: [ master ]
+    branches:
+      - master
+    paths-ignore:
+      - '**/README.md'
   pull_request:
-    branches: [ master ]
+    branches:
+      - master
 
 jobs:
   build:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.5, 3.6, 3.7, 3.8]
-
+        python-version:
+          - '3.7'
+          - '3.8'
+          - '3.9'
+          - '3.10'
     steps:
     - name: Checkout acremote
       uses: actions/checkout@v2

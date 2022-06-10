@@ -1,6 +1,5 @@
 # acremote
 [![Github CI](https://github.com/foreignmeloman/acremote/workflows/CI/badge.svg)](https://github.com/foreignmeloman/acremote/actions)
-[![Build Status](https://travis-ci.org/foreignmeloman/acremote.svg?branch=master)](https://travis-ci.org/foreignmeloman/acremote)
 [![CodeFactor](https://www.codefactor.io/repository/github/foreignmeloman/acremote/badge)](https://www.codefactor.io/repository/github/foreignmeloman/acremote)
 
 ## Hardware
@@ -10,7 +9,7 @@
 
 ## Installation
 Requirements:
-  - [Python](https://www.python.org/) 3.5+
+  - [Python](https://www.python.org/) 3.7+
   - [pigpio](https://github.com/joan2937/pigpio) V71+
   - root privilege to launch
 

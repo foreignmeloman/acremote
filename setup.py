@@ -15,7 +15,7 @@ module_gpirblast = Extension(
 
 setup(  # TODO fill the form
     name='acremote',
-    version='0.1',
+    version='0.1.0',
     description='<description_placeholder>',  # actual "Summary" field in egg-info
     long_description='<long_description_placeholder>',
     url='https://github.com/foreignmeloman',

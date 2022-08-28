@@ -89,8 +89,7 @@ static inline int irSling(uint32_t outPin,
 	carrierFrequency(outPin, frequency, dutyCycle, leadingPulseDuration, irSignal, &pulseCount);
 	gap(outPin, leadingGapDuration, irSignal, &pulseCount);
 
-	int i;
-	for (i = 0; i < codeLen; i++)
+	for (size_t i = 0; i < codeLen; i++)
 	{
 		if (code[i] == '0')
 		{
